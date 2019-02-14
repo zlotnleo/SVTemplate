@@ -1,0 +1,257 @@
+\documentclass[10pt,twoside,a4paper]{article}
+
+% Configure these parameters.
+\newcommand{\studentname}{Harry~Potter}
+\newcommand{\studentemail}{hjp1@cam.ac.uk}
+\newcommand{\studentcollege}{Pelby College}
+\newcommand{\svtripos}{Computer Science Tripos}
+\newcommand{\svtripospart}{IA}
+\newcommand{\svcourse}{Dark Arts}
+\newcommand{\svcoursefull}{Defence Agains the Dark Arts}
+\newcommand{\svnumber}{1}
+\newcommand{\svdate}{15.11.2019}
+\newcommand{\svdatefull}{15 November 2019}
+\newcommand{\svtime}{14:00}
+\newcommand{\svvenuefull}{Porterhouse College, 42M}
+\newcommand{\svvenue}{Porterhouse 42M}
+\newcommand{\svrname}{Dr~Sup~E.~R.~Visor}
+% End configuration
+
+\usepackage{authblk}
+\usepackage{titling}
+
+\setlength{\droptitle}{-6em}
+\title{\large\textbf{\svtripos\ Part~\svtripospart\\\svcoursefull\\Supervision~\svnumber}}
+\date{\textbf{\svdatefull\ \svtime\\\svvenuefull}}
+\author{\textbf{\studentname} \\ \studentemail}
+\affil{\studentcollege\\University~of~Cambridge}
+
+%\usepackage{a4}             % Adjust margins for A4 media
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyheadoffset[LO,LE,RO,RE]{0pt}
+\fancyfootoffset[LO,LE,RO,RE]{0pt}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[R]{\studentname\\\studentemail}
+\fancyhead[L]{\svtripospart\ \svcourse, SV~\svnumber\\\svdate\ \svtime, \svvenue}
+\fancyfoot{}
+\fancyfoot[R]{\thepage\ / \pageref{LastPage}}
+
+%Remove the header on the first page
+\fancypagestyle{plain}{
+    \fancyhf{} % clear all header and footer fields
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyhead[R]{For \svrname}
+    \fancyfoot[R]{\thepage\ / \pageref{LastPage}}
+}
+
+\usepackage{lastpage}       % "n of m" page numbering
+\usepackage{lscape}         % Makes landscape easier
+%\usepackage{portland}      % Switch between portrait and landscape
+\usepackage{graphics}       % Graphics commands
+\usepackage{wrapfig}        % Wrapping text around figures
+\usepackage{epsfig}         % Embed encapsulated postscript
+\usepackage{rotating}       % Extra graphics rotation
+%\usepackage{tables}        % Tabular environments
+\usepackage{longtable}      % Page breaks within tables
+\usepackage{supertabular}   % Page breaks within tables
+\usepackage{multicol}       % Allows table cells to span cols
+\usepackage{multirow}       % Allows table cells to span rows
+\usepackage{texnames}       % Macros for common tex names
+%\usepackage{trees}         % Tree-like layout
+\usepackage{hhline}         % Horizontal lines in tables
+\usepackage{siunitx}        % Correct spacing of units
+
+\usepackage{listings}       % Source code listings
+\usepackage{array}          % Array environment
+\usepackage{hyperref}       % URL formatting
+\usepackage{amsmath}        % American Mathematical Society
+\usepackage{amssymb}        % Maths symbols
+\usepackage{amsthm}         % Theorems
+%\usepackage{mathpartir}    % Proofs and inference rules
+\usepackage{verbatim}       % Verbatim blocks
+\usepackage{ifthen}         % Conditional processing in tex
+\usepackage{xcolor}         % X11 colour names
+
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{forest}
+\usepackage{tabularx}
+\usepackage{calc}
+\usepackage{arydshln}
+\usepackage{cancel}
+\usepackage{xifthen}
+\usepackage{caption}
+\usepackage{float}
+\usepackage[section]{placeins} % control floats placement
+\usepackage{minted}
+\usepackage{wasysym}
+\usepackage{adjustbox}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usepackage{tikz-dependency}
+\usetikzlibrary{arrows,automata}
+
+
+% control width and vertically align text in table cells
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% make hyperref links not-ugly
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+\setlength{\oddsidemargin}{-20pt}
+\setlength{\evensidemargin}{-20pt}
+\setlength{\topmargin}{-30pt}
+\addtolength{\textheight}{100pt}
+\setlength{\textwidth}{500pt}
+
+\setlength{\parindent}{0em}
+\addtolength{\parskip}{1ex}
+
+% Define questions environment with framed \question
+\newcommand{\questionlabel}{Question }
+\newcommand{\restorequestionlabel}{\renewcommand{\questionlabel}{Question }}
+\newcommand{\setquestionlabel}[1]{\renewcommand{\questionlabel}{#1}}
+\newlist{questions}{enumerate}{4}
+\setlist[questions]{align=left,ref=\questionlabel\arabic*,label=\textbf{\questionlabel\arabic*.},wide}
+\newcommand{\itembr}{\needspace{12\baselineskip}\item\mbox{}}
+\newcommand{\questionmarks}[1]{\hspace*{\fill}[#1~mark\ifthenelse{\equal{#1}{1}}{}{s}]}
+\newcommand{\question}[2][]{\itembr\begin{mdframed}#2
+\ifthenelse{\equal{#1}{}}{}{\questionmarks{#1}}
+\end{mdframed}}
+
+% Same as \question but in environment form
+% e.g. for use with verbatim environments inside
+\newenvironment{questionenv}[1][]{
+    % save macro since \endquestionenv cannot access arguments
+    \def\questionenvmarks{\ifthenelse{\equal{#1}{}}{}{\questionmarks{#1}}}
+    \itembr
+    \begin{mdframed}
+}{
+    \questionenvmarks
+    \end{mdframed}
+}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand*{\bfrac}[2]{\genfrac{}{}{0pt}{0}{#1}{#2}} % Fractions without a bar
+
+\newcommand{\Wat}{$\cal W$\kern-.5em\lower.7ex\hbox{$\cal A$}\kern-.25em$\cal T$\kern-.35em\lower.7ex\hbox{\textbf{?}}\kern-0.2em\textbf{?}}
+\newcommand{\Wtf}{\textbf{W}\kern-.25em\raise.7ex\hbox{\textbf{T}}\kern-.25em\textbf{F}\kern-.3em\lower1ex\hbox{\textbf{?}}\kern-0.2em\textbf{?}}
+
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+
+\begin{document}
+\maketitle
+\rule{\textwidth}{1pt}
+
+%%%%%%%%%%%%%%%%%%%%%
+%
+% Set configuration settings at top of file.
+
+\section{Section One}
+\begin{questions}[label=(\textit{\alph*})]
+\question[3]{Draw a truth table for logical XOR?}
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$p$ & $q$ & $p\land q$ \\
+\hline
+0 & 0 & 0 \\
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+%Use environment instead of \question because it has code inside
+\begin{questionenv}[10]
+Consider the following ML functions:
+
+\begin{minted}{sml}
+fun p f s (t::h) = (f h) t s @ p (f p (r f))::q h
+and q a b = (b a p (p q) a) b :: (q b);
+\end{minted}
+
+\begin{enumerate}[label=(\textit{\roman*})]
+\item What is the ML type associated with p?
+\item What does the function \texttt{p} do?
+\item Why does it do it?
+\item How long does it take?
+\end{enumerate}
+\end{questionenv}
+\begin{enumerate}[label=(\textit{\roman*})]
+\item $\ldots$
+\item $\ldots$
+\item $\ldots$
+\item $\ldots$
+\end{enumerate}
+\end{questions}
+
+\newpage
+\section{Section Two}
+
+\begin{questions}[label=]
+\question[10]{Do some maths}
+
+$$\int\sin(x) dx =-\cos(x)+C$$
+
+$$\int x^2 dx =\frac{x^3}{3}+C$$
+
+\question[10]{Give an example of a 5-colourable graph and write some words}
+
+\begin{minipage}[t]{0.5\linewidth}
+\phantom{invisible text}
+\begin{center}
+\begin{tikzpicture}[node distance=1.75cm,every node/.style={draw,circle,minimum size=0.8cm,inner sep=0pt}]
+\node[fill=red] (y) {$y$};
+\node[fill=blue,text=white,below of=y] (x) {$x$};
+\node[fill=green,left of=x,xshift=0.25cm] (t5) {$t_5$};
+\node[fill=red,below of=x] (c) {$c$};
+\node[fill=red,left of=c] (t4) {$t_4$};
+\node[fill=magenta,right of=c] (t3) {$t_3$};
+\node[fill=green,below of=t4] (a) {$a$};
+\node[fill=yellow,below of=t3] (b) {$b$};
+\node[fill=blue,text=white,below right of=a,xshift=-0.25cm] (t1) {$t_1$};
+\node[fill=blue,text=white,below left of=b,xshift=0.25cm] (t2) {$t_2$};
+\draw
+    (a) -- (b) -- (c) -- (a)
+    (a) -- (t1) -- (b)    (c) -- (t1)
+    (a) -- (t2) -- (b)    (c) -- (t2)
+    (a) -- (x) -- (b)    (c) -- (x)
+    (a) -- (t3) -- (b)    (c) -- (t3) -- (x)
+    (a) -- (t4) -- (b)    (x) -- (t4)
+    (x) -- (y) edge[out=180,in=120] (a)    (y) edge[out=0,in=60] (b)
+    (x) -- (t5) -- (y)
+;
+\end{tikzpicture}
+\end{center}
+\end{minipage}\begin{minipage}[t]{0.5\linewidth}
+\phantom{invisible text}
+{\Large ``some words''}
+\begin{itemize}
+\item words
+\item words
+\item more words
+\end{itemize}
+\end{minipage}
+
+\end{questions}
+
+% End of your supervision work
+%
+%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
